@@ -1,0 +1,1 @@
+DOCUMENTATION: https://developer.mozilla.org/it/docs/Mozilla/Add-ons/WebExtensions
