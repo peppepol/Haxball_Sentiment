@@ -6,7 +6,7 @@
   "version": "1.0",
 
   "description": "Adds a browser action icon to the toolbar. Click the button to choose a beast. The active tab's body content is then replaced with a picture of the chosen beast. See https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Examples#beastify",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/beastify",
+  "homepage_url": "https://github.com/peppepol/Haxball_Sentiment",
   "icons": {
     "48": "icons/hb48.png",
     "96": "icons/hb96.png"
@@ -24,6 +24,6 @@
 
   "web_accessible_resources": [
     "img/tux.jpg"
-  ]
+  ]  
 
 }
