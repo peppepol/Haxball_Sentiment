@@ -12,34 +12,21 @@ const hidePage = `body > :not(.tux-image) {
 */
 function listenForClicks() {
     document.addEventListener("click", (e) => {
+        console.log("Ho ricevuto un click!");
 
-        /**
-        * Insert the page-hiding CSS into the active tab,
-        * then get the beast URL and
-        * send a "beastify" message to the content script in the active tab.
-        */
-        function attiva(tabs) {
-            browser.tabs.insertCSS({code: hidePage}).then(() => {
-                let url = browser.extension.getURL("img/tux.jpg")
-                browser.tabs.sendMessage(tabs[0].id, {
-                    command: "attiva",
-                    imgUrl: url
-                });
-            });
-        }
+        const enable = (tabs) => browser.tabs.sendMessage(
+            tabs[0].id,     // integer
+            {
+                command: 'enable'
+            }
+        );
 
-        /**
-        * Remove the page-hiding CSS from the active tab,
-        * send a "reset" message to the content script in the active tab.
-        */
-        function disattiva(tabs) {
-            browser.tabs.removeCSS({code: hidePage}).then(() => {
-                browser.tabs.sendMessage(tabs[0].id, {
-                    command: "disable",
-                });
-            });
-        }
-
+        const disable = (tabs) => browser.tabs.sendMessage(
+            tabs[0].id,     // integer
+            {
+                command: 'disable'
+            }
+        );
 
         /**
         * Just log the error to the console.
@@ -52,13 +39,13 @@ function listenForClicks() {
         * Get the active tab,
         * then call "beastify()" or "reset()" as appropriate.
         */
-        if (e.target.classList.contains("active")) {
+        if (e.target.classList.contains("btn-enable")) {
             browser.tabs.query({active: true, currentWindow: true})
-                .then(attiva)
+                .then(enable)
                 .catch(reportError);
-        }else if (e.target.classList.contains("disable")) {
+        }else if (e.target.classList.contains("btn-disable")) {
             browser.tabs.query({active: true, currentWindow: true})
-                .then(disattiva)
+                .then(disable)
                 .catch(reportError);
         }
     }
@@ -69,8 +56,6 @@ function listenForClicks() {
 * Display the popup's error message, and hide the normal UI.
 */
 function reportExecuteScriptError(error) {
-    document.querySelector("#popup-content").classList.add("hidden");
-    document.querySelector("#error-content").classList.remove("hidden");
     console.error(`Failed to execute beastify content script: ${error.message}`);
 }
 
@@ -79,6 +64,6 @@ function reportExecuteScriptError(error) {
 * and add a click handler.
 * If we couldn't inject the script, handle the error.
 */
-browser.tabs.executeScript({file: "/scripts/script.js"})
+browser.tabs.executeScript({file: "/scripts/content.js"})
     .then(listenForClicks)
     .catch(reportExecuteScriptError);

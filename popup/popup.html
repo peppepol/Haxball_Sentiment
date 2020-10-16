@@ -4,14 +4,25 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="popup.css"/>
 </head>
+
 <body>
-    <div id="popup-content">
-        <div class="button active">Attiva</div>
-        <div class="button disable">Disattiva</div>
-      </div>
-      <div id="error-content" class="hidden">
-        <p>Can't beastify this web page.</p><p>Try a different page.</p>
-      </div>
-      <script src="popup.js"></script>
+	<div id="popup-content">
+        <div class="row">
+          <div class="btn-enable">Attiva</div>
+          <div class="btn-disable">Disattiva</div>
+        </div>
+
+        <label for="textarea1" class="label bold pv5">
+          JSON Emoji
+        </label>
+    <textarea class="textarea"></textarea>
+  </div>
+  
+	<div id="popup-status" class="">
+		<p>Error to load extension!</p>
+  </div>
+
+  <script src="./popup.js"></script>
 </body>
+
 </html>

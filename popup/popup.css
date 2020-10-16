@@ -1,32 +1,79 @@
-html, body {
-    width: 100px;
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
+body {
+  font-family: Comfortaa;
+    width: 200px;
+  background-color: 'gray';
+  margin:0;
+  padding:0;
 }
 
-.hidden {
-    display: none;
+#popup-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin:0;
+  padding:0;
+  background-color: #ededed;
 }
 
-.button {
-    margin: 3% auto;
-    padding: 4px;
-    text-align: center;
-    font-size: 1.5em;
-    cursor: pointer;
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5px 0;
 }
 
-.button:hover {
-    background-color: #CFF2F2;
+.btn-enable:hover{
+  background-color: rgba(0,255,0, 0.8);
+}
+.btn-enable{
+  border-radius: 10px 0 0 10px;
+  padding: 5px 10px;
+  background-color: rgba(0,255,0, 0.4);
+  cursor: pointer;
 }
 
-.active {
-    background-color: #E5F2F2;
+.label{
+  text-align: center;
+  font-size: 12px;
+}
+.bold{
+  font-weight: bold;
 }
 
-.disable {
-    background-color: #FBFBC9;
+.pv5{
+  padding: 5px 0;
 }
 
-.disable:hover {
-    background-color: #EAEA9D;
+.textarea{
+  height:100px;
+  max-height:200px;
+  width: 90%;
+  max-width: 90%;
+  margin: 0 auto;
+  resize: vertical;
 }
-  
+.btn-disable:hover{
+  background-color: rgba(255,0,0, 0.8);
+}
+.btn-disable{
+  border-radius: 0 10px 10px 0;
+  padding: 5px 10px;
+  background-color: rgba(255,0,0, 0.4);
+  cursor: pointer;
+}
+
+.hidden{
+  display:none;
+}
+
+#popup-status{
+  display: flex;
+  flex-direction:row;
+  justify-content: center;
+}
+
+#popup-status >p {
+  font-size: 12px;
+}
