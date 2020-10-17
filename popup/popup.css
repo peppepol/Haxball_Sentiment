@@ -3,9 +3,9 @@
 body {
   font-family: Comfortaa;
     width: 200px;
-  background-color: 'gray';
+  background-color: #ededed;
   margin:0;
-  padding:0;
+  padding: 0;
 }
 
 #popup-content{
@@ -13,7 +13,7 @@ body {
   flex-direction: column;
   justify-content: center;
   margin:0;
-  padding:0;
+  padding:5px 0 0 0;
   background-color: #ededed;
 }
 
@@ -21,17 +21,44 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding: 5px 0;
 }
 
-.btn-enable:hover{
-  background-color: rgba(0,255,0, 0.8);
+.sa{
+  justify-content: space-around;
 }
+
 .btn-enable{
   border-radius: 10px 0 0 10px;
   padding: 5px 10px;
   background-color: rgba(0,255,0, 0.4);
   cursor: pointer;
+}
+.btn-enable:hover{
+  background-color: rgba(0,255,0, 0.8);
+}
+
+.btn-set{
+  border-radius: 5px 0 0 5px;
+  padding: 2px 5px;
+  background-color: rgba(255,215,0, 0.4);
+  cursor: pointer;
+  font-size: 12px;
+}
+.btn-set:hover{
+  background-color: rgba(255,215,0, 1);
+}
+
+.btn-clear{
+  border-radius: 0 5px 5px 0;
+  padding: 2px 5px;
+  background-color: rgba(220,220,220, 0.5);
+  cursor: pointer;
+  font-size: 12px;
+}
+.btn-clear:hover{
+  background-color: rgba(220,220,220, 1);
 }
 
 .active-g{
@@ -80,8 +107,9 @@ body {
   display: flex;
   flex-direction:column;
   justify-content: center;
+  background-color: white;
   align-items: center;
-  margin: 5px 0;
+  padding: 10px 0;
 }
 
 #popup-status >p {
