@@ -34,6 +34,14 @@ body {
   cursor: pointer;
 }
 
+.active-g{
+  background-color:  rgba(0,255,0, 1);
+}
+
+.active-r{
+  background-color: rgba(255,0,0, 1);
+}
+
 .label{
   text-align: center;
   font-size: 12px;
@@ -70,10 +78,17 @@ body {
 
 #popup-status{
   display: flex;
-  flex-direction:row;
+  flex-direction:column;
   justify-content: center;
+  align-items: center;
+  margin: 5px 0;
 }
 
 #popup-status >p {
   font-size: 12px;
+  margin: 0;
+}
+#extStatus{
+  color: lime;
+  font-weight: bold;
 }

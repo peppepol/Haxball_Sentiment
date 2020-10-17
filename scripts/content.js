@@ -6,30 +6,25 @@
 
     window.hasRun = true;
 
-    function handleKey(e){
-      console.log(e.key);
+    var obj;
+    browser.storage.local.get("textarea").then(r => obj=r.textarea);
 
-      const keys = ["5","6","7","8","9"];
+    let keys = ["5","6","7","8","9","0"];
+    function handleKey(e){
+      //console.log(e.key);
+      //console.log(obj);
+
       let frame = document.getElementsByTagName('iframe')[0].contentWindow.document;
       let inp = frame.getElementsByClassName('input')[0].children[0];
       let send = frame.getElementsByClassName('input')[0].children[1];
       
       if(keys.includes(e.key)){
-        let command = "/avatar "+ switchEmoji(e.key);
-
-        // ACTIVATE ELEMENTS
-        /*
-        if(frame.activeElement != inp){
-          inp.focus();
-        }
-        */
+        let command = "/avatar " + (obj[e.key] === undefined ? "" : obj[e.key]);
 
         inp.value = command;
         send.click();
         delAvatarSet(frame);
       }
-
-      
     }
 
     //ELIMINAZIONE "Avatar set"
@@ -41,22 +36,6 @@
           notice.parentNode.removeChild(notice);
         }
       }
-    }
-
-    function switchEmoji(key){
-        switch(key){
-            case "5":
-              return "📦";
-            case "6":
-              return "🤘🏼";
-            case "7":
-              return "⚽️"
-            case "8":
-              return "❓"
-            case "9":
-              return "❤️"
-
-        }
     }
   
     browser.runtime.onMessage.addListener((message) => {

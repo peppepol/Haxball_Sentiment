@@ -1,32 +1,67 @@
-/**
- * CSS to hide everything on the page,
- * except for elements that have the "beastify-image" class.
- */
-const hidePage = `body > :not(.tux-image) {
-    display: none;
-  }`;
+//START
+browser.storage.local.get("textarea").then( res => {
+    document.getElementsByTagName("textarea")[0].innerText = JSON.stringify(res.textarea);
+    try{
+        JSON.stringify(res.textarea);
+        document.getElementById("error").innerText = "Oggetto JSON valido!"
+    }catch(err){
+        document.getElementById("error").innerText = "Oggetto JSON non valido!"
+    }
+});
 
-/**
-* Listen for clicks on the buttons, and send the appropriate message to
-* the content script in the page.
-*/
+browser.storage.onChanged.addListener((changes, areaName)=>{
+    console.log("Local Storage aggiornato correttamente!");
+})
+
+browser.storage.local.get("extStatus").then( res => {
+    document.getElementById("extStatus").innerText = (res.extStatus ? "ESTENSIONE ATTIVA!": "");
+});
+
+/////////////////////////////////////////////////////////////
+
 function listenForClicks() {
+    const textarea = document.getElementsByTagName("textarea")[0];
+    textarea.addEventListener('input',(e)=>{
+        let message;
+        try{
+            message = JSON.parse(textarea.value);
+            browser.storage.local.set({
+                textarea: message
+            })  
+                .then(()=>{
+                    document.getElementById("error").innerText = "Oggetto JSON valido!";
+                })
+        }catch(err){
+            document.getElementById("error").innerText = "Oggetto JSON non valido!";
+        }        
+    })
+
     document.addEventListener("click", (e) => {
-        console.log("Ho ricevuto un click!");
+        //console.log("Ho ricevuto un click!");
 
-        const enable = (tabs) => browser.tabs.sendMessage(
-            tabs[0].id,     // integer
-            {
+        const enable = (tabs) => {
+            
+            browser.storage.local.set({
+                extStatus: true
+            });
+            browser.tabs.sendMessage(tabs[0].id, {
                 command: 'enable'
-            }
-        );
+            });
 
-        const disable = (tabs) => browser.tabs.sendMessage(
-            tabs[0].id,     // integer
-            {
+            document.getElementById("extStatus").innerText = "ESTENSIONE ATTIVA";
+        }
+        
+
+        const disable = (tabs) => {
+            
+            browser.storage.local.set({
+                extStatus: false
+            });
+            browser.tabs.sendMessage(tabs[0].id,{
                 command: 'disable'
-            }
-        );
+            });
+            document.getElementById("extStatus").innerText = "";
+        }
 
         /**
         * Just log the error to the console.
