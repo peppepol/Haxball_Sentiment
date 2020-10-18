@@ -5,7 +5,7 @@
   "name": "HaxBall Sentiment",
   "version": "1.0",
 
-  "description": "Adds a browser action icon to the toolbar. Click the button to choose a beast. The active tab's body content is then replaced with a picture of the chosen beast. See https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Examples#beastify",
+  "description": "Web Extension for online game Haxball",
   "homepage_url": "https://github.com/peppepol/Haxball_Sentiment",
   "icons": {
     "48": "icons/hb48.png",
@@ -23,6 +23,6 @@
     "default_popup": "popup/popup.html"
   },
 
-  "web_accessible_resources": []  
+  "web_accessible_resources": []   
 
 }

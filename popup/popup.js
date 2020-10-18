@@ -1,13 +1,11 @@
 //START
-browser.storage.local.get("textarea").then( res => {
-   
-    document.getElementsByTagName("textarea")[0].innerHTML = JSON.stringify(res.textarea, null, 1);
+browser.storage.local.get("textarea").then( res => {    
     try{
+        document.getElementsByTagName("textarea")[0].innerHTML = JSON.stringify(res.textarea, null, 1);
         if(res.textarea === undefined){
             document.getElementsByTagName("textarea")[0].innerText = "{}";
             throw new Error("JSON Undefined");
         }
-        JSON.stringify(res.textarea);
         document.getElementById("error").innerText = "Oggetto JSON valido!"
     }catch(err){
         if(err.message === "JSON Undefined")
