@@ -1,5 +1,5 @@
 (function() {
-
+  
     if (window.hasRun) {
       return;
     }
@@ -8,6 +8,9 @@
 
     //GLOBAL VARIABLES
     var obj;
+    var animationIndex = 0;
+    let animationSequence = [];
+    var interval = 100;
     let keys = ["5","6","7","8","9","0"];
     let arrow = ["ArrowLeft","ArrowUp","ArrowRight","ArrowDown"];
 
@@ -43,7 +46,44 @@
         }
       }
     }
-    
+
+    function stopAnimation(){
+      animationSequence = [];
+      animationIndex = 0;
+      clearInterval(animation);
+    }
+
+    function startAnimation(){
+      console.log("funziona!", interval);
+      
+      for(i=5; i<9; i++){
+        if(obj[i] !== undefined && obj[i] !== ""){
+          animationSequence.push(obj[i]);
+        }
+      }
+
+      if(obj[0] !== undefined && obj[i] !== "") animationSequence.push(obj[0]);
+      if(animationSequence.length === 0) animationSequence.push("O");     
+      
+      animationIndex = 0;
+      
+      setInterval(animation, interval);
+      
+    }
+
+    function animation(){
+
+      let frame = document.getElementsByTagName('iframe')[0].contentWindow.document;
+      let inp = frame.getElementsByClassName('input')[0].children[0];
+      let send = frame.getElementsByClassName('input')[0].children[1];
+
+      inp.value = "/avatar " + animationSequence[animationIndex];
+      animationIndex++;
+      if(animationIndex > animationSequence.length-1) animationIndex=0;
+      send.click();
+      delAvatarSet(frame);
+    }
+
     //LISTENER DEI MESSAGGI
     browser.runtime.onMessage.addListener((message) => {
       if (message.command === "enable") {
@@ -63,7 +103,20 @@
 
       }else if (message.command === "clear"){
         browser.storage.local.get("textarea").then(r => obj=r.textarea);
+      }else if (message.command === "start-animation"){
+        
+        browser.storage.local.get("textarea").then(r => obj=r.textarea);
+        browser.storage.local.get("interval").then(res => {
+          if(isNaN(res.interval) || res.interval === ""){
+            interval = 100;
+          }else{
+            interval = res.interval;
+          }
+
+          startAnimation();
+        });
+      }else if(message.command === "stop-animation"){
+        stopAnimation();
       }
     });
-  
   })();

@@ -2,121 +2,29 @@
 
 body {
   font-family: Comfortaa;
-    width: 200px;
+  width: 300px;
   background-color: #ededed;
   margin:0;
   padding: 0;
 }
 
-#popup-content{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin:0;
-  padding:5px 0 0 0;
-  background-color: #ededed;
+textarea{
+  width: 100%;
 }
 
-.row{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 5px 0;
+#interval{
+  width: 120px;
+  height: 30px;
 }
 
-.sa{
-  justify-content: space-around;
-}
-
-.btn-enable{
-  border-radius: 10px 0 0 10px;
-  padding: 5px 10px;
-  background-color: rgba(0,255,0, 0.4);
-  cursor: pointer;
-}
-.btn-enable:hover{
-  background-color: rgba(0,255,0, 0.8);
-}
-
-.btn-set{
-  border-radius: 5px 0 0 5px;
-  padding: 2px 5px;
-  background-color: rgba(255,215,0, 0.4);
-  cursor: pointer;
-  font-size: 12px;
-}
-.btn-set:hover{
-  background-color: rgba(255,215,0, 1);
-}
-
-.btn-clear{
-  border-radius: 0 5px 5px 0;
-  padding: 2px 5px;
-  background-color: rgba(220,220,220, 0.5);
-  cursor: pointer;
-  font-size: 12px;
-}
-.btn-clear:hover{
-  background-color: rgba(220,220,220, 1);
-}
-
-.active-g{
-  background-color:  rgba(0,255,0, 1);
-}
-
-.active-r{
-  background-color: rgba(255,0,0, 1);
-}
-
-.label{
-  text-align: center;
-  font-size: 12px;
-}
-.bold{
-  font-weight: bold;
-}
-
-.pv5{
-  padding: 5px 0;
-}
-
-.textarea{
-  height:100px;
-  max-height:200px;
-  width: 90%;
-  max-width: 90%;
-  margin: 0 auto;
-  resize: vertical;
-}
-.btn-disable:hover{
-  background-color: rgba(255,0,0, 0.8);
-}
-.btn-disable{
-  border-radius: 0 10px 10px 0;
-  padding: 5px 10px;
-  background-color: rgba(255,0,0, 0.4);
-  cursor: pointer;
-}
-
-.hidden{
-  display:none;
-}
-
-#popup-status{
-  display: flex;
-  flex-direction:column;
-  justify-content: center;
-  background-color: white;
-  align-items: center;
-  padding: 10px 0;
-}
-
-#popup-status >p {
-  font-size: 12px;
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
   margin: 0;
 }
-#extStatus{
-  color: lime;
-  font-weight: bold;
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

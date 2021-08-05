@@ -23,6 +23,13 @@
     "default_popup": "popup/popup.html"
   },
 
+  "content_scripts": [
+    {
+      "matches": ["*://*.haxball.com/*"],
+      "js": ["scripts/execution.js"]
+    }
+  ],
+
   "web_accessible_resources": []   
 
 }
