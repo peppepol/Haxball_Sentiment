@@ -23,9 +23,15 @@ browser.storage.local.get("textarea").then( res => {
 });
 
 browser.storage.local.get("extStatus").then( res => {
-    document.getElementById("power-extension").classList.add("btn-danger");
-    document.getElementById("power-extension").classList.remove("btn-success");
-    document.getElementById("power-extension").innerText = "OFF";
+    if(res.extStatus){
+        document.getElementById("power-extension").classList.add("btn-danger");
+        document.getElementById("power-extension").classList.remove("btn-success");
+        document.getElementById("power-extension").innerText = "OFF";
+    }else{
+        document.getElementById("power-extension").classList.remove("btn-danger");
+        document.getElementById("power-extension").classList.add("btn-success");
+        document.getElementById("power-extension").innerText = "ON";
+    }
 });
 
 
@@ -33,7 +39,7 @@ browser.storage.local.get("extStatus").then( res => {
 browser.storage.local.get("animation").then(res =>{
     
     if(res.animation){
-        document.getElementById("animation").checked = true;        
+        document.getElementById("animation").checked = true;    
     }else{
         document.getElementById("animation").checked = false;
     }
@@ -127,8 +133,20 @@ function listenForClicks() {
     });
 
     document.getElementById("interval").addEventListener("input", e=>{
-        browser.storage.local.set({
-            interval: e.target.value
+        if(!isNaN(e.target.value) && e.target.value !== ""){
+            browser.storage.local.set({
+                interval: e.target.value
+            })            
+        }else{
+            browser.storage.local.set({
+                interval: 1000
+            })
+        }
+
+        browser.tabs.query({active: true, currentWindow: true}).then(tabs =>{
+            browser.tabs.sendMessage(tabs[0].id,{
+                command: 'update-speed'
+            })
         })
     })
     
@@ -186,6 +204,15 @@ function listenForClicks() {
             browser.tabs.sendMessage(tabs[0].id,{
                 command: 'disable'
             });
+
+            browser.storage.local.get("animation").then(res =>{
+                if(res.animation){
+                    document.getElementById("animation").checked = false;
+                    browser.storage.local.set({
+                        animation: false
+                    })
+                }
+            })
             //document.getElementById("extStatus").innerText = "";
         }
 
