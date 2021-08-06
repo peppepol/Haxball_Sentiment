@@ -11,6 +11,7 @@
     var animationIndex = 0;
     let animationSequence = [];
     var interval = 100;
+    var intervalFunction;
     let keys = ["5","6","7","8","9","0"];
     let arrow = ["ArrowLeft","ArrowUp","ArrowRight","ArrowDown"];
 
@@ -48,15 +49,17 @@
     }
 
     function stopAnimation(){
+      if(animationSequence[0] !== undefined)
+          sendMessage("/avatar " + animationSequence[0]);
+      else
+          sendMessage("/avatar -");
       animationSequence = [];
       animationIndex = 0;
-      clearInterval(animation);
+      clearInterval(intervalFunction);
     }
 
-    function startAnimation(){
-      console.log("funziona!", interval);
-      
-      for(i=5; i<9; i++){
+    function startAnimation(){      
+      for(i=5; i<10; i++){
         if(obj[i] !== undefined && obj[i] !== ""){
           animationSequence.push(obj[i]);
         }
@@ -67,22 +70,25 @@
       
       animationIndex = 0;
       
-      setInterval(animation, interval);
+      intervalFunction = setInterval(animation, interval);
       
     }
 
     function animation(){
+      sendMessage("/avatar " + animationSequence[animationIndex]);
+      animationIndex++;
+      if (animationIndex > animationSequence.length - 1) animationIndex = 0;   
+    }
 
+    function sendMessage(text){
       let frame = document.getElementsByTagName('iframe')[0].contentWindow.document;
       let inp = frame.getElementsByClassName('input')[0].children[0];
       let send = frame.getElementsByClassName('input')[0].children[1];
-
-      inp.value = "/avatar " + animationSequence[animationIndex];
-      animationIndex++;
-      if(animationIndex > animationSequence.length-1) animationIndex=0;
+  
+      inp.value = text;
       send.click();
       delAvatarSet(frame);
-    }
+  }
 
     //LISTENER DEI MESSAGGI
     browser.runtime.onMessage.addListener((message) => {

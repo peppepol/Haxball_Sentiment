@@ -1,3 +1,5 @@
+document.addEventListener("keypress", e => console.log(e))
+
 //START
 browser.storage.local.get("textarea").then( res => {    
     try{
@@ -29,12 +31,10 @@ browser.storage.local.get("extStatus").then( res => {
 
 
 browser.storage.local.get("animation").then(res =>{
-    console.log(res);
+    
     if(res.animation){
-        document.getElementById("interval").disabled = false;
         document.getElementById("animation").checked = true;        
     }else{
-        document.getElementById("interval").disabled = true;
         document.getElementById("animation").checked = false;
     }
 
@@ -112,7 +112,6 @@ function listenForClicks() {
                 })
             })
 
-            document.getElementById("interval").disabled = false;
             document.getElementById("interval").value = 1000;
         }else{
             browser.storage.local.set({
@@ -124,8 +123,6 @@ function listenForClicks() {
                     command: 'stop-animation'
                 })
             })
-
-            document.getElementById("interval").disabled = true;
         }
     });
 

@@ -14,7 +14,8 @@
 
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
 
   "browser_action": {
@@ -22,7 +23,7 @@
     "default_title": "HaxBall Sentiment",
     "default_popup": "popup/popup.html"
   },
-
+  
   "content_scripts": [
     {
       "matches": ["*://*.haxball.com/*"],
