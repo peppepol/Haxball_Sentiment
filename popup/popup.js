@@ -1,6 +1,6 @@
-document.addEventListener("keypress", e => console.log(e))
-
-//START
+// STARTUP CHECKS
+// Textarea
+listenerPopup();
 browser.storage.local.get("textarea").then( res => {    
     try{
         document.getElementById("textarea").innerHTML = JSON.stringify(res.textarea, null, 1);
@@ -22,6 +22,7 @@ browser.storage.local.get("textarea").then( res => {
     }
 });
 
+// Extension status
 browser.storage.local.get("extStatus").then( res => {
     if(res.extStatus){
         document.getElementById("power-extension").classList.add("btn-danger");
@@ -34,13 +35,13 @@ browser.storage.local.get("extStatus").then( res => {
     }
 });
 
-
-
+// Animation status
 browser.storage.local.get("animation").then(res =>{
     
     if(res.animation){
-        document.getElementById("animation").checked = true;    
-    }else{
+        browser.storage.local.set({
+            aniamtion: false
+        });
         document.getElementById("animation").checked = false;
     }
 
@@ -57,21 +58,8 @@ browser.storage.local.get("animation").then(res =>{
     .catch(e => document.getElementById("interval").value = 1000);
 })
 
-//STORAGE CHANGED EVENT
-browser.storage.onChanged.addListener((changes, areaName)=>{
-    if ('textarea' in changes){
-        console.log("\n\nOLD VALUE");
-        console.log(changes.textarea.oldValue);
-        console.log("NEW VALUE");
-        console.log(changes.textarea.newValue);
-        
-        if(changes.textarea.newValue === undefined)
-            document.getElementsByTagName("textarea")[0].innerText = "{}";
-    }
-});
-
 //TAB IN TEXTAREA
-document.getElementById('textarea').addEventListener('keydown', function(e) {
+document.getElementById('textarea').addEventListener('keydown', (e) => {
     if (e.key == 'Tab') {
         e.preventDefault();
         var start = this.selectionStart;
@@ -82,56 +70,15 @@ document.getElementById('textarea').addEventListener('keydown', function(e) {
         "   " + this.value.substring(end);
     
         // put caret at right position again
-        this.selectionStart =
-            this.selectionEnd = start + 1;
+        this.selectionStart = this.selectionEnd = start + 1;
     }
-  });
+});
 
-/////////////////////////////////////////////////////////////
 
-/*
-* Listener for clicks event
-*/
-function listenForClicks() {
+// LISTENER FOR THE POPUP
+function listenerPopup() {
 
-    document.getElementById("animation").addEventListener("change",e =>{
-        if(e.target.checked){
-            browser.storage.local.set({
-                animation: true
-            })
-
-            browser.storage.local.get("interval").then( res => {
-                if(isNaN(res.interval) || res.interval === ""){
-                    document.getElementById("interval").value =  1000;
-                    browser.storage.local.set({
-                        interval: 1000
-                    })
-                }else{
-                    document.getElementById("interval").value = res.interval;
-                }
-            })
-            .catch(e => document.getElementById("interval").value = 1000);
-
-            browser.tabs.query({active: true, currentWindow: true}).then(tabs =>{
-                browser.tabs.sendMessage(tabs[0].id,{
-                    command: 'start-animation'
-                })
-            })
-
-            document.getElementById("interval").value = 1000;
-        }else{
-            browser.storage.local.set({
-                animation: false
-            })
-
-            browser.tabs.query({active: true, currentWindow: true}).then(tabs =>{
-                browser.tabs.sendMessage(tabs[0].id,{
-                    command: 'stop-animation'
-                })
-            })
-        }
-    });
-
+    // Listener interval input
     document.getElementById("interval").addEventListener("input", e=>{
         if(!isNaN(e.target.value) && e.target.value !== ""){
             browser.storage.local.set({
@@ -150,6 +97,7 @@ function listenForClicks() {
         })
     })
     
+    // Listener textarea input
     document.getElementById("textarea").addEventListener("input", (e)=>{
         e.preventDefault();
         try{
@@ -167,7 +115,7 @@ function listenForClicks() {
             browser.tabs.query({active:true, currentWindow: true})
                 .then( (tabs)=>{
                     browser.tabs.sendMessage(tabs[0].id,{
-                        command: 'update'
+                        command: 'update-textarea'
                     });
                 });
                 
@@ -179,11 +127,10 @@ function listenForClicks() {
     });
     
 
+    // Listener extension power button
     document.addEventListener("click", (e) => {
 
-        /*
-        * Enable web extension
-        */
+        // Function enable
         const enable = (tabs) => {
             browser.storage.local.set({
                 extStatus: true
@@ -191,12 +138,9 @@ function listenForClicks() {
             browser.tabs.sendMessage(tabs[0].id, {
                 command: 'enable'
             });
-            //document.getElementById("extStatus").innerText = "ESTENSIONE ATTIVA";
         }
         
-        /*
-        * Disable web extension
-        */
+        // Function disable
         const disable = (tabs) => {
             browser.storage.local.set({
                 extStatus: false
@@ -212,20 +156,11 @@ function listenForClicks() {
                         animation: false
                     })
                 }
-            })
-            //document.getElementById("extStatus").innerText = "";
+            });
         }
 
-        /*
-        * Report generic error in console
-        */
-        function reportError(error) {
-            console.error(`Error report: ${error}`);
-        }
-
-    
+        // Clicks condition    
         if (e.target.id === "power-extension") {
-
             if(document.getElementById(e.target.id).innerText === "ON"){
                 document.getElementById("power-extension").innerText = "OFF";
                 document.getElementById(e.target.id).classList.add("btn-danger");
@@ -242,21 +177,15 @@ function listenForClicks() {
                     .catch(reportError);
             }   
         }
+
+        // Generic error report
+        function reportError(error) {
+            console.error(`Error report: ${error}`);
+        }
     }
 )};
 
-/**
-* There was an error executing the script.
-* Display the popup's error message, and hide the normal UI.
-*/
+// GENERIC SCRIPT ERROR REPORT
 function reportExecuteScriptError(error) {
-    console.error(`Failed to execute beastify content script: ${error.message}`);
+    console.error(`Failed to execute content script: ${error.message}`);
 }
-
-/**
-* When the popup loads, inject a content script into the active tab.
-* If we couldn't inject the script, handle the error.
-*/
-browser.tabs.executeScript({file: "/scripts/content.js"})
-    .then(listenForClicks)
-    .catch(reportExecuteScriptError);

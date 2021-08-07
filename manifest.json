@@ -3,7 +3,7 @@
 
   "manifest_version": 2,
   "name": "HaxBall Sentiment",
-  "version": "1.0",
+  "version": "2.0",
 
   "description": "Web Extension for online game Haxball",
   "homepage_url": "https://github.com/peppepol/Haxball_Sentiment",
