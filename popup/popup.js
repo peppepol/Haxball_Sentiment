@@ -8,14 +8,14 @@ browser.storage.local.get("textarea").then( res => {
             document.getElementById("textarea").innerText = "{}";
             throw new Error("JSON Undefined");
         }
-        document.getElementById("error").innerText = "Oggetto JSON valido!"
+        document.getElementById("error").innerText = "JSON verified!"
         document.getElementById("error").classList.remove("bg-warning");
         document.getElementById("error").classList.add("bg-success");
     }catch(err){
         if(err.message === "JSON Undefined")
             document.getElementById("error").innerText = "";
         else
-            document.getElementById("error").innerText = "Oggetto JSON non valido!";
+            document.getElementById("error").innerText = "JSON not verified!";
 
         document.getElementById("error").classList.add("bg-warning");
         document.getElementById("error").classList.remove("bg-success");
@@ -108,7 +108,7 @@ function listenerPopup() {
                 textarea: json
             })  
                 .then(()=>{
-                    document.getElementById("error").innerText = "Oggetto JSON valido!"
+                    document.getElementById("error").innerText = "JSON verified!"
                     document.getElementById("error").classList.remove("bg-warning");
                     document.getElementById("error").classList.add("bg-success");
                 });
@@ -120,7 +120,7 @@ function listenerPopup() {
                 });
                 
         }catch(err){
-            document.getElementById("error").innerText = "Oggetto JSON non valido!"
+            document.getElementById("error").innerText = "JSON not verified!"
             document.getElementById("error").classList.remove("bg-success");
             document.getElementById("error").classList.add("bg-warning");
         }
